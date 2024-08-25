@@ -33,7 +33,7 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 RUN php artisan key:generate
 
 # Expose port 80 for web server
-EXPOSE 8001
+EXPOSE 80
 
 # Start the web server
-CMD ["php", "-S", "0.0.0.0:8001", "-t", "public"]
+CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
