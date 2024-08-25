@@ -21,7 +21,7 @@ services:
       MYSQL_PASSWORD: laraveluser
       MYSQL_ROOT_PASSWORD: rootpassword # Root password is generally required
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql # Use a named volume for the database
     networks:
