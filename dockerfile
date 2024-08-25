@@ -1,18 +1,43 @@
-# Use the official PHP 7.1.3 image as the base image
-FROM php:7.1.3
+FROM php:7.1-fpm
+
+RUN set -eux; \
+    apt-get update; \
+    apt-get upgrade -y; \
+    apt-get install -y --no-install-recommends \
+            curl \
+            libmemcached-dev \
+            libz-dev \
+            libpq-dev \
+            libjpeg-dev \
+            libpng-dev \
+            libfreetype6-dev \
+            libssl-dev \
+            libwebp-dev \
+            libmcrypt-dev; \
+    # cleanup
+    rm -rf /var/lib/apt/lists/*
+
+RUN set -eux; \
+    # Install the PHP mcrypt extention
+    docker-php-ext-install mcrypt; \
+    # Install the PHP pdo_mysql extention
+    docker-php-ext-install pdo_mysql; \
+    # Install the PHP pdo_pgsql extention
+    docker-php-ext-install pdo_pgsql; \
+    # Install the PHP gd library
+    docker-php-ext-configure gd \
+            --enable-gd-native-ttf \
+            --with-jpeg-dir=/usr/lib \
+            --with-webp-dir=/usr/lib \
+            --with-freetype-dir=/usr/include/freetype2; \
+    docker-php-ext-install gd; \
+    php -r 'var_dump(gd_info());'
+
+
+
 
 # Set the working directory in the container
 WORKDIR /var/www/html
-
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
