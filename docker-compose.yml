@@ -13,23 +13,6 @@ services:
     networks:
       - laravel # Connect the app service to the laravel network
 
-  db: # Define a service for your database
-    image: mysql:5.7 # Specify a version for compatibility
-    environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: laraveluser
-      MYSQL_PASSWORD: laraveluser
-      MYSQL_ROOT_PASSWORD: rootpassword # Root password is generally required
-    ports:
-      - "3307:3306"
-    volumes:
-      - db_data:/var/lib/mysql # Use a named volume for the database
-    networks:
-      - laravel
-
 networks:
   laravel:
     driver: bridge
-
-volumes:
-  db_data:
