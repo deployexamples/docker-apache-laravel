@@ -138,9 +138,9 @@ Adjust the branch name (main in this case) as needed.
 If you're using Docker Compose, restart the containers:
 
 ```bash
-    docker compose down
-    docker compose build
-    docker compose up -d
+docker compose down # Stop the containers if they're running
+docker compose build
+docker compose up -d
 ```
 
 ### Step 3: Go to Docker Container
@@ -148,7 +148,7 @@ If you're using Docker Compose, restart the containers:
 If you're using Docker, you might need to go into the container to run commands:
 
 ```bash
-    docker exec -it dockerApp bash
+docker exec -it dockerApp bash
 ```
 
 ### Step 4: Clear Laravel Cache
@@ -208,11 +208,12 @@ jobs:
             - name: Deploy to Azure VM
               run: |
                   ssh -o StrictHostKeyChecking=no azureuser@20.51.207.28 << 'EOF'
-                  cd apache/apache-laravel/
+                  cd apache/docker-apache-laravel
                   git pull origin main || { echo 'Git pull failed'; exit 1; }
                   docker-compose down
-                  docker-compose build
+                  docker compose build --no-cache 
                   docker-compose up -d
+                  docker exec -it dockerApp bash
                   composer install --no-interaction --no-suggest
                   php artisan config:cache
                   php artisan route:cache
