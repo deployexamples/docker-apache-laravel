@@ -1,4 +1,4 @@
-# apache-laravel
+# docker-apache-laravel
 
 Setup Laravel with Apache server and MySQL database on your domain.
 
