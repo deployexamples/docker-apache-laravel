@@ -1,14 +1,25 @@
 FROM php:8.1-fpm
 
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    libpng-dev libjpeg-dev libfreetype6-dev zip \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libonig-dev \  # Add this line to install oniguruma for mbstring
+    zip \
+    pkg-config \  # Add this line to install pkg-config
+    && docker-php-ext-install pdo mbstring
 
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN docker-php-ext-install pdo mbstring
+
+# Set working directory
 WORKDIR /app
+
+# Copy application files
 COPY . /app
 
-# Expose port 80 for web server
+# Expose port 80 for the web server
 EXPOSE 80
 
 # Start the web server
