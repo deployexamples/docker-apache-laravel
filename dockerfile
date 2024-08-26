@@ -5,9 +5,9 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    libonig-dev \  # Add this line to install oniguruma for mbstring
+    libonig-dev \
     zip \
-    pkg-config \  # Add this line to install pkg-config
+    pkg-config \ 
     && docker-php-ext-install pdo mbstring
 
 # Install Composer
